@@ -5,14 +5,12 @@
 
 
 import cv2
-from PIL import Image, ImageTk
-import os
 import pickle
 import string
 import numpy as np
 from MediapipeModels import MediapipeHandModel
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.neighbors import KNeighborsClassifier
+
 
 class GUI:
     def __init__(self, cls_path_name:str):
@@ -201,6 +199,8 @@ class GUI:
             # Check if there is only one hand detected (one hand have 42 features in this case)
             if len(vector) == 42:
 
+                #PRENDO IL VETTORE DI 42 FEATURES E LE INVIO ALLA BOARD
+                #METTO AL POSTO DEL KNN IL MIO MODELLO
                 # Predict hand features
                 pred = self.knn_cls.predict([vector])[0]
 

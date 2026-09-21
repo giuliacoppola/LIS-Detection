@@ -1,0 +1,107 @@
+ST Edge AI Core v2.2.0-20266 2adc00962
+Created date          : 2025-10-17 14:18:48
+Parameters            : generate --model /tmp/stm32ai_service/9676a555-8089-4f06-8d1d-b7d368cbb08b/lis_dnn_model_quant_2.tflite --st-neural-art custom@/tmp/stm32ai_service/9676a555-8089-4f06-8d1d-b7d368cbb08b/profile-0b725a3d-0d02-49c0-859f-8cad4bd270b0.json --target stm32n6 --name network --workspace /tmp/stm32ai_service/9676a555-8089-4f06-8d1d-b7d368cbb08b/workspace --output /tmp/stm32ai_service/9676a555-8089-4f06-8d1d-b7d368cbb08b/output
+
+Model name - lis_dnn_model_quant_2
+------ --------------------------- -------------- ------------- ------- ------------------------ 
+m_id   layer (original)            oshape         param/size       macc             connected to 
+------ --------------------------- -------------- ------------- ------- ------------------------ 
+0      serving_default_input0 ()   [b:1,c:42]                                                    
+       tfl_pseudo_qconst5 ()       [b:128,c:42]   5,376/5,376                                    
+       tfl_pseudo_qconst4 ()       [b:128]        128/512                                        
+       gemm_0 (FULLY_CONNECTED)    [b:1,c:128]                    5,504   serving_default_input0 
+                                                                              tfl_pseudo_qconst5 
+                                                                              tfl_pseudo_qconst4 
+       nl_0_nl (FULLY_CONNECTED)   [b:1,c:128]                      128                   gemm_0 
+------ --------------------------- -------------- ------------- ------- ------------------------ 
+1      tfl_pseudo_qconst3 ()       [b:64,c:128]   8,192/8,192                                    
+       tfl_pseudo_qconst2 ()       [b:64]         64/256                                         
+       gemm_1 (FULLY_CONNECTED)    [b:1,c:64]                     8,256                  nl_0_nl 
+                                                                              tfl_pseudo_qconst3 
+                                                                              tfl_pseudo_qconst2 
+       nl_1_nl (FULLY_CONNECTED)   [b:1,c:64]                        64                   gemm_1 
+------ --------------------------- -------------- ------------- ------- ------------------------ 
+2      tfl_pseudo_qconst1 ()       [b:26,c:64]    1,664/1,664                                    
+       tfl_pseudo_qconst ()        [b:26]         26/104                                         
+       gemm_2 (FULLY_CONNECTED)    [b:1,c:26]                     1,690                  nl_1_nl 
+                                                                              tfl_pseudo_qconst1 
+                                                                               tfl_pseudo_qconst 
+------ --------------------------- -------------- ------------- ------- ------------------------ 
+3      nl_3 (SOFTMAX)              [b:1,c:26]                       390                   gemm_2 
+------ --------------------------- -------------- ------------- ------- ------------------------ 
+model: macc=16,032 weights=16,104 activations=-- io=--
+
+
+
+
+
+Compilation details
+------------------------------------------------------------------------------------
+Compiler version: 1.1.1-14
+Compiler arguments:  -i /tmp/stm32ai_service/9676a555-8089-4f06-8d1d-b7d368cbb08b/output/lis_dnn_model_quant_2_OE_3_3_0.onnx --json-quant-file /tmp/stm32ai_service/9676a555-8089-4f06-8d1d-b7d368cbb08b/output/lis_dnn_model_quant_2_OE_3_3_0_Q.json -g network.c --load-mdesc /app/stm32ai/Utilities/configs/stm32n6.mdesc --load-mpool /app/stm32ai/Utilities/linux/targets/stm32/resources/mpools/stm32n6__internal_memories_only.mpool --save-mpool-file /tmp/stm32ai_service/9676a555-8089-4f06-8d1d-b7d368cbb08b/workspace/neural_art__network/stm32n6__internal_memories_only.mpool --out-dir-prefix /tmp/stm32ai_service/9676a555-8089-4f06-8d1d-b7d368cbb08b/workspace/neural_art__network/ --native-float --mvei --cache-maintenance --Ocache-opt --enable-virtual-mem-pools --Os --Oauto-sched --optimization 3 --enable-virtual-mem-pools --Oshuffle-dma --Ocache-opt --cache-maintenance --Oauto-sched --Omax-ca-pipe 4 --output-info-file c_info.json
+====================================================================================
+
+Memory usage information  (input/output buffers are included in activations)
+------------------------------------------------------------------------------------
+	flexMEM    [0x34000000 - 0x34000000]:          0  B /          0  B  (  0.00 % used) -- weights:          0  B (  0.00 % used)  activations:          0  B (  0.00 % used)
+	cpuRAM1    [0x34064000 - 0x34064000]:          0  B /          0  B  (  0.00 % used) -- weights:          0  B (  0.00 % used)  activations:          0  B (  0.00 % used)
+	cpuRAM2    [0x34100000 - 0x34200000]:          0  B /      1.000 MB  (  0.00 % used) -- weights:          0  B (  0.00 % used)  activations:          0  B (  0.00 % used)
+	npuRAM3    [0x34200000 - 0x34270000]:          0  B /    448.000 kB  (  0.00 % used) -- weights:          0  B (  0.00 % used)  activations:          0  B (  0.00 % used)
+	npuRAM4    [0x34270000 - 0x342E0000]:          0  B /    448.000 kB  (  0.00 % used) -- weights:          0  B (  0.00 % used)  activations:          0  B (  0.00 % used)
+	npuRAM5    [0x342E0000 - 0x34350000]:     16.511 kB /    448.000 kB  (  3.69 % used) -- weights:     16.298 kB (  3.64 % used)  activations:        218  B (  0.05 % used)
+	npuRAM6    [0x34350000 - 0x343C0000]:          0  B /    448.000 kB  (  0.00 % used) -- weights:          0  B (  0.00 % used)  activations:          0  B (  0.00 % used)
+	octoFlash  [0x71000000 - 0x71000000]:          0  B /          0  B  (  0.00 % used) -- weights:          0  B (  0.00 % used)  activations:          0  B (  0.00 % used)
+	hyperRAM   [0x90000000 - 0x90000000]:          0  B /          0  B  (  0.00 % used) -- weights:          0  B (  0.00 % used)  activations:          0  B (  0.00 % used)
+---
+Total:                                            16.511 kB                                  -- weights:     16.298 kB                  activations:        218  B                   
+====================================================================================
+
+
+Used memory ranges
+------------------------------------------------------------------------------------
+	npuRAM5    [0x342E0000 - 0x34350000]: 0x342E0000-0x342E4220
+====================================================================================
+
+Epochs details
+------------------------------------------------------------------------------------
+Total number of epochs: 6 of which 1 implemented in software
+---
+epoch ID   HW/SW/EC Operation (SW only)
+epoch 1       HW    
+epoch 2       HW    
+epoch 3       HW    
+epoch 4       HW    
+epoch 5       HW    
+epoch 6      -SW-   (      Softmax       )
+==================================================================================== 
+ Requested memory size by section - "stm32n6npu" target
+ ------------------------------- -------- -------- ------ ----- 
+ module                              text   rodata   data   bss 
+ ------------------------------- -------- -------- ------ ----- 
+ NetworkRuntime1020_CM55_GCC.a      9,432        0      0     0 
+ network.o                            784    5,623      0     0 
+ ll_aton_reloc_network.o                0        0      0     0 
+ lib (toolchain)*                       0        0      0     0 
+ ll atonn runtime                   6,542    2,230      0    29 
+ ------------------------------- -------- -------- ------ ----- 
+ RT total**                        16,758    7,853      0    29 
+ ------------------------------- -------- -------- ------ ----- 
+ weights                                0   16,689      0     0 
+ activations                            0        0      0   218 
+ io                                     0        0      0     0 
+ ------------------------------- -------- -------- ------ ----- 
+ TOTAL                             16,758   24,542      0   247 
+ ------------------------------- -------- -------- ------ ----- 
+ *  toolchain objects (libm/libgcc*)
+ ** RT AI runtime objects (kernels+infrastructure)
+  
+  Summary - "stm32n6npu" target
+  ---------------------------------------------------
+               FLASH (ro)      %*   RAM (rw)       % 
+  ---------------------------------------------------
+  RT total         24,611   59.6%         29   11.7% 
+  ---------------------------------------------------
+  TOTAL            41,300                247         
+  ---------------------------------------------------
+  *  rt/total
+

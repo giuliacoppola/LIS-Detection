@@ -1,0 +1,48 @@
+digraph SoftwareImplementationFlow {
+	rankdir=TB size="8,10"
+	node [fillcolor="#E9F0F5" fontname=Arial fontsize=10 shape=rectangle style="rounded,filled"]
+	edge [fontname=Arial fontsize=9]
+	PC [label="Software su PC (Python + MediaPipe + TensorFlow Lite)" fillcolor="#CDE4F2" shape=box style="filled,bold"]
+	A1 [label="1️⃣ Acquisizione immagine webcam
+(MediaPipe rileva landmark della mano)"]
+	A2 [label="2️⃣ Pre-processing
+Normalizzazione coordinate (x, y)"]
+	A3 [label="3️⃣ Quantizzazione valori float → int8
+x_int8 = (x_float / scale) + zero_point"]
+	A4 [label="4️⃣ Serializzazione
+Creazione stringa: val1:val2:...:val42\n"]
+	A5 [label="5️⃣ Invio via UART → STM32"]
+	A6 [label="6️⃣ Attesa e ricezione output UART"]
+	A7 [label="7️⃣ Parsing e decodifica output"]
+	A8 [label="8️⃣ Identificazione del gesto LIS"]
+	A9 [label="9️⃣ (Opzionale) Inferenza locale per validazione"]
+	A1 -> A2
+	A2 -> A3
+	A3 -> A4
+	A4 -> A5
+	A5 -> A6
+	A6 -> A7
+	A7 -> A8
+	A8 -> A9
+	STM [label="Firmware su microcontrollore STM32N6" fillcolor="#F2D8CD" shape=box style="filled,bold"]
+	B1 [label="1️⃣ Attesa pacchetto UART
+(HAL_UART_RxCpltCallback)"]
+	B2 [label="2️⃣ Parsing stringa ricevuta
+→ vettore int8_t[42]"]
+	B3 [label="3️⃣ Inizializzazione runtime STM32Cube.AI
+(LL_ATON_RT_RuntimeInit, Init_Network)"]
+	B4 [label="4️⃣ Esecuzione inferenza (NPU)
+LL_ATON_RT_RunEpochBlock()"]
+	B5 [label="5️⃣ Salvataggio risultati in buffer_out"]
+	B6 [label="6️⃣ Trasmissione risultati via UART al PC"]
+	B1 -> B2
+	B2 -> B3
+	B3 -> B4
+	B4 -> B5
+	B5 -> B6
+	A5 -> B1 [label="Dati quantizzati (int8) via UART" color="#0057B8" fontsize=9]
+	B6 -> A6 [label="Output inferenza (probabilità LIS)" color="#009900" fontsize=9]
+	LEG [label="Legenda:
+🟦 Lato PC → acquisizione e invio dati
+🟧 Lato STM32 → inferenza e trasmissione risultati" fillcolor="#FFF7CC" shape=note style=filled]
+}
