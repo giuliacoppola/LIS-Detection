@@ -11,6 +11,8 @@ This is my bachelor's thesis project in Computer Engineering at the Università 
 
 <img src="readmeFiles/lis_example.gif" />
 
+> 📄 **Full thesis:** [`Tesi_Giulia_Coppola.pdf`](Tesi_Giulia_Coppola.pdf) — the official bachelor's thesis document, with the complete write-up of the background, methodology, implementation and results behind this repository.
+
 ## Table of contents
 
 - [Credits & license](#credits--license)
